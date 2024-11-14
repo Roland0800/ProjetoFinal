@@ -2,19 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<title>JLMN - Sports</title>
 </head>
 <body>
-<nav>
-    <div class="nav-wrapper container" >
-      <a href="#" class="brand-logo">Logo</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
-      </ul>
-    </div>
-  </nav>
+	<div th:replace="~{menu :: menu}"></div>
+	<div class="container">
+		<h1>Produtos</h1>
+		<table class="highlight">
+			<thead>
+				<tr>
+					<th>Catagoria</th>
+					<th>Catagoria</th>
+					<th>Catagoria</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Produto 1</th>
+					<th>Produto 1</th>
+					<th>Produto 1</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
