@@ -35,7 +35,7 @@ public class sportsController {
 		ar.save(artigo);
 		return "redirect:/home";
 	}
-	
+
 	@GetMapping("/home")
 	public ModelAndView listaArtigo(Artigo artigo) {
 		List<Artigo> artigos = ar.findAll();
@@ -45,38 +45,44 @@ public class sportsController {
 	}
 
 	@GetMapping("/Artigo/{id}")
-	public ModelAndView artigo(@PathVariable Long id) {
+	public ModelAndView artigo(@PathVariable Long id, Produto produto) {
 		ModelAndView mv = new ModelAndView();
 		Optional<Artigo> opt = ar.findById(id);
-		if(opt.isEmpty()) {
+		if (opt.isEmpty()) {
 			mv.setViewName("home");
 			return mv;
 		}
 		mv.setViewName("Artigo");
 		Artigo artigo = opt.get();
 		mv.addObject("artigo", artigo);
+		List<Produto> produtos = pr.findByArtigo(artigo);
+		mv.addObject("produtos", produtos);
 		return mv;
 	}
-	
+
 	@GetMapping("/addProduto")
 	public String addProduto(Produto produto) {
 		return "/addProduto";
 	}
 
-	@PostMapping("/saveProduto")
-	public String saveProduto(Produto produto) {
-		System.out.println(produto.toString());
-		pr.save(produto);
-		return "redirect:/home";
-	}
+	@PostMapping("/Artigo/{idArtigo}")
+	public ModelAndView saveProduto(@PathVariable Long idArtigo, Produto produto) {
 
-	/*/@GetMapping("/home")
-	public ModelAndView home() {
-		List<Produto> produtos = pr.findAll();
-		ModelAndView mv = new ModelAndView("home");
-		mv.addObject("produtos", produtos);
+		Optional<Artigo> opt = ar.findById(idArtigo);
+		ModelAndView mv = new ModelAndView();
+
+		if (opt.isEmpty()) {
+			mv.setViewName("home");
+			return mv;
+		}
+
+		Artigo artigo = opt.get();
+		produto.setArtigo(artigo);
+		pr.save(produto);
+		System.out.println(produto.toString());
+		mv.setViewName("redirect:/Artigo/{idArtigo}");
 		return mv;
-	}/*/
+	}
 
 	@GetMapping("/login")
 	public String login() {
