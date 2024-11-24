@@ -9,20 +9,16 @@
 <body>
 	<div th:replace="~{menu :: menu}"></div>
 	<div class="container">
-		<h1>Produtos</h1>
+		<h1>Artigos</h1>
 		<table class="highlight">
 			<thead>
 				<tr>
-					<th>Catagoria</th>
-					<th>Catagoria</th>
-					<th>Catagoria</th>
+					<th>Artigos</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="p : ${produtos}">
-					<td th:text="${p.nome}">Nome</td>
-					<td th:text="${p.descricao}">Descrição</td>
-					<td>R$ <span th:text="${p.preco}">Preço</span></td>
+				<tr th:each="a : ${artigos}">
+					<td><a th:href="@{/Artigo/{id}(id=${a.id})}"><span th:text="${a.nome}">Nome</span></a></td>
 				</tr>
 			</tbody>
 		</table>
