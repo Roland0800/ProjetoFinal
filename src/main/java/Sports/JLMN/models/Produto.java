@@ -14,6 +14,7 @@ public class Produto {
 	private String nome;
 	private String descricao;
 	private String preco;
+	
 
 	public Long getId() {
 		return id;
