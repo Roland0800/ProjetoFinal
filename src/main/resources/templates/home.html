@@ -19,10 +19,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th>Produto 1</th>
-					<th>Produto 1</th>
-					<th>Produto 1</th>
+				<tr th:each="p : ${produtos}">
+					<td th:text="${p.nome}">Nome</td>
+					<td th:text="${p.descricao}">Descrição</td>
+					<td>R$ <span th:text="${p.preco}">Preço</span></td>
 				</tr>
 			</tbody>
 		</table>
