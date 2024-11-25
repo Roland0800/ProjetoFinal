@@ -8,13 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import Sports.JLMN.models.Artigo;
 import Sports.JLMN.models.Produto;
+import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.artigoRepository;
 import Sports.JLMN.repositories.produtoRepository;
+import Sports.JLMN.repositories.usuarioRepository;
 
 @Controller
 public class sportsController {
@@ -23,6 +24,8 @@ public class sportsController {
 	private produtoRepository pr;
 	@Autowired
 	private artigoRepository ar;
+	@Autowired
+	private usuarioRepository ur;
 
 	@GetMapping("/addArtigo")
 	public String addArtigo(Artigo artigo) {
@@ -84,8 +87,15 @@ public class sportsController {
 		return mv;
 	}
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
+	@GetMapping("/CriarUsuario")
+	public String criarUsuario(Usuario usuario) {
+		return "CriarUsuario";
+	}
+	
+	@PostMapping("/saveUsuario")
+	public String saveUsuario(Usuario usuario) {
+		System.out.println(usuario.toString());
+		ur.save(usuario);
+		return "redirect:/home";
 	}
 }
