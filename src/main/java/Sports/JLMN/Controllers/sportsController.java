@@ -105,16 +105,16 @@ public class sportsController {
 	}
 	
 	@PostMapping("/loginUsuario")
-	public ModelAndView loginUsuario(Usuario usuario) {
-		List<Usuario> usuarios = ur.findAll();
+	public ModelAndView loginUsuario(String nome, String senha) {
+		Usuario loginNome = ur.findByNome(nome);
+		Usuario loginSenha = ur.findBySenha(senha);
 		ModelAndView mv = new ModelAndView();
-		List<Usuario> opt = ur.findByNome(usuario);
-		if(opt.isEmpty()) {
+		if(loginNome == null || loginSenha == null) {
 			mv.setViewName("login");
 			return mv;
 		}
-		
-		mv.setViewName("home");
+		System.out.println(loginNome);
+		System.out.println(loginSenha);
 		return mv;
 	}
 }
