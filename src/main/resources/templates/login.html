@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<title>JLMN Sports - Criar Usuário</title>
+<title>JLMN Sports - Login</title>
 </head>
 <body>
-    <div th:replace="~{menu :: menu}"></div>
+    <div th:replace="~{menu :: menuLogin}"></div>
 	<div class="container">
-		<h3 align="center">Criar Usuário</h3>
-		<form action="/saveUsuario" method="post">
+		<h3 align="center">Login</h3>
+		<form action="/loginUsuario" method="post">
 			<div>
 				<label>Nome:</label> <input type="text" name="nome">
 			</div>
@@ -18,7 +18,7 @@
 				<label>Senha:</label> <input type="password" name="senha">
 			</div>
 			<div>
-				<button class="waves-effect waves-light btn" type="submit">Salvar</button>
+				<button class="waves-effect waves-light btn" type="submit">Acessar</button>
 				<button class="waves-effect waves-light btn" type="submit">Limpar</button>
 			</div>
 		</form>
