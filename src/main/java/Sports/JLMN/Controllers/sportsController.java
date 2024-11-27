@@ -40,10 +40,15 @@ public class sportsController {
 	}
 
 	@GetMapping("/home")
-	public ModelAndView listaArtigo(Artigo artigo) {
+	public ModelAndView listaArtigo(Artigo artigo, Usuario usuario) {
 		List<Artigo> artigos = ar.findAll();
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView();
+		if(usuario == null) {
+			mv.setViewName("login");
+			return mv;
+		}
 		mv.addObject("artigos", artigos);
+		mv.setViewName("/home");
 		return mv;
 	}
 
@@ -91,30 +96,30 @@ public class sportsController {
 	public String criarUsuario(Usuario usuario) {
 		return "criarUsuario";
 	}
-	
+
 	@PostMapping("/saveUsuario")
 	public String saveUsuario(Usuario usuario) {
 		System.out.println(usuario.toString());
 		ur.save(usuario);
 		return "redirect:/home";
 	}
-	
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
-	
+
 	@PostMapping("/loginUsuario")
-	public ModelAndView loginUsuario(String nome, String senha) {
-		Usuario loginNome = ur.findByNome(nome);
-		Usuario loginSenha = ur.findBySenha(senha);
+	public ModelAndView loginUsuario(String nome, String senha, String tipo) {
+		Usuario login = ur.login(nome, senha, tipo);
+
 		ModelAndView mv = new ModelAndView();
-		if(loginNome == null || loginSenha == null) {
-			mv.setViewName("login");
+		if (login == null) {
+			mv.setViewName("redirect:/login");
 			return mv;
 		}
-		System.out.println(loginNome);
-		System.out.println(loginSenha);
+		System.out.println(login);
+		mv.setViewName("redirect:/home");
 		return mv;
 	}
 }
