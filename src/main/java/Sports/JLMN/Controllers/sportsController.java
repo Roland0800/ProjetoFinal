@@ -87,9 +87,9 @@ public class sportsController {
 		return mv;
 	}
 
-	@GetMapping("/CriarUsuario")
+	@GetMapping("/criarUsuario")
 	public String criarUsuario(Usuario usuario) {
-		return "CriarUsuario";
+		return "criarUsuario";
 	}
 	
 	@PostMapping("/saveUsuario")
@@ -97,5 +97,24 @@ public class sportsController {
 		System.out.println(usuario.toString());
 		ur.save(usuario);
 		return "redirect:/home";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@PostMapping("/loginUsuario")
+	public ModelAndView loginUsuario(Usuario usuario) {
+		List<Usuario> usuarios = ur.findAll();
+		ModelAndView mv = new ModelAndView();
+		List<Usuario> opt = ur.findByNome(usuario);
+		if(opt.isEmpty()) {
+			mv.setViewName("login");
+			return mv;
+		}
+		
+		mv.setViewName("home");
+		return mv;
 	}
 }
