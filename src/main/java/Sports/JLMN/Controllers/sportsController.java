@@ -66,6 +66,7 @@ public class sportsController {
 			mv.setViewName("home");
 			return mv;
 		}
+		
 		mv.setViewName("Artigo");
 		Artigo artigo = opt.get();
 		mv.addObject("artigo", artigo);
@@ -80,7 +81,7 @@ public class sportsController {
 	}
 
 	@PostMapping("/Artigo/{idArtigo}")
-	public ModelAndView saveProduto(@PathVariable Long idArtigo, Produto produto) {
+	public ModelAndView saveProduto(@PathVariable Long idArtigo, @Valid Produto produto, BindingResult result, RedirectAttributes attribute) {
 
 		Optional<Artigo> opt = ar.findById(idArtigo);
 		ModelAndView mv = new ModelAndView();
@@ -89,11 +90,16 @@ public class sportsController {
 			mv.setViewName("home");
 			return mv;
 		}
-
+		if (result.hasErrors()) {
+			return artigo(idArtigo, produto);
+		}
+		
 		Artigo artigo = opt.get();
 		produto.setArtigo(artigo);
-		pr.save(produto);
 		System.out.println(produto.toString());
+		pr.save(produto);
+		attribute.addFlashAttribute("mensagem", "Produto adicionado com sucesso!");
+		
 		mv.setViewName("redirect:/Artigo/{idArtigo}");
 		return mv;
 	}
