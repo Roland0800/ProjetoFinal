@@ -5,10 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Sports.JLMN.models.Artigo;
 import Sports.JLMN.models.Produto;
@@ -16,6 +20,7 @@ import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.artigoRepository;
 import Sports.JLMN.repositories.produtoRepository;
 import Sports.JLMN.repositories.usuarioRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class sportsController {
@@ -33,20 +38,21 @@ public class sportsController {
 	}
 
 	@PostMapping("/saveArtigo")
-	public String saveArtigo(Artigo artigo) {
+	public String saveArtigo(@Valid Artigo artigo, BindingResult result, RedirectAttributes attribute) {
+		if(result.hasErrors()) {
+			return addArtigo(artigo);
+		}
 		System.out.println(artigo.toString());
 		ar.save(artigo);
+		attribute.addFlashAttribute("mensagem", "Artigo adicionado com sucesso!");
 		return "redirect:/home";
 	}
 
 	@GetMapping("/home")
-	public ModelAndView listaArtigo(Artigo artigo, Usuario usuario) {
+	public ModelAndView listaArtigo(Artigo artigo) {
 		List<Artigo> artigos = ar.findAll();
 		ModelAndView mv = new ModelAndView();
-		if(usuario == null) {
-			mv.setViewName("login");
-			return mv;
-		}
+		
 		mv.addObject("artigos", artigos);
 		mv.setViewName("/home");
 		return mv;
