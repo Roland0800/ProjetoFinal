@@ -13,6 +13,7 @@ public class Usuario {
 	private Long id;
 	private String nome;
 	private String senha;
+	private String altSenha;
 	private String tipo;
 
 	public Long getId() {
@@ -37,6 +38,14 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getAltSenha() {
+		return altSenha;
+	}
+
+	public void setAltSenha(String altSenha) {
+		this.altSenha = altSenha;
 	}
 
 	public String getTipo() {

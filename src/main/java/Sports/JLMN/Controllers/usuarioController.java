@@ -1,36 +1,27 @@
 package Sports.JLMN.Controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import Sports.JLMN.models.Artigo;
-import Sports.JLMN.models.Produto;
 import Sports.JLMN.models.Usuario;
-import Sports.JLMN.repositories.artigoRepository;
-import Sports.JLMN.repositories.produtoRepository;
 import Sports.JLMN.repositories.usuarioRepository;
-import jakarta.validation.Valid;
 
 @Controller
 public class usuarioController {
-	
+
 	@Autowired
 	private usuarioRepository ur;
 
 	@GetMapping("/criarUsuario")
 	public String criarUsuario(Usuario usuario) {
-		return "criarUsuario";
+		return "usuario/criarUsuario";
 	}
 
 	@PostMapping("/saveUsuario")
@@ -40,9 +31,31 @@ public class usuarioController {
 		return "redirect:/home";
 	}
 
+	@GetMapping("/usuario/altSenha")
+	public String altSenha() {
+		return "usuario/altSenha";
+	}
+
+	@PostMapping("/usuario/newSenha")
+	public String newSenha(Long id, String senha, String altSenha, BindingResult result, RedirectAttributes attribute) {
+		Optional<Usuario> opt = ur.findById(id);
+		if (result.hasErrors()) {
+			return "usuario/altSenha";
+		}
+		if (opt.isEmpty()) {
+			return "usuario/altSenha";
+		}
+		if (senha != altSenha) {
+			attribute.addFlashAttribute("mensagem", "Insira senhas Iguais!");
+			return "usuario/altSenha";
+		}
+		ur.newSenha(senha,id);
+		return "home";
+	}
+
 	@GetMapping("/login")
 	public String login() {
-		return "login";
+		return "usuario/login";
 	}
 
 	@PostMapping("/loginUsuario")
