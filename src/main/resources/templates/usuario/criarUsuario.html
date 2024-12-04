@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<title>JLMN Sports - Criar Usuário</title>
+</head>
+<body>
+	<div th:replace="~{menu :: menuLogin}"></div>
+	<div class="container">
+		<h3 align="center">Criar Usuário</h3>
+		<form action="/saveUsuario" method="post">
+			<div>
+				<label>Nome:</label> <input type="text" name="nome">
+			</div>
+			<div>
+				<label>Senha:</label> <input type="password" name="senha">
+			</div>
+			<p>
+				<label> <input name="tipo" type="radio" value="Cliente"/> <span>Cliente</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="tipo" type="radio" value="ADM"/> <span>Adm</span>
+				</label>
+			</p>
+			<div>
+				<button class="waves-effect waves-light btn" type="submit">Salvar</button>
+				<button class="waves-effect waves-light btn" type="submit">Limpar</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
