@@ -14,6 +14,8 @@ public class Usuario {
 	private String nome;
 	private String senha;
 	private String email;
+	private String endereco;
+	private String contato;
 	private String tipo;
 
 	public Long getId() {
@@ -48,6 +50,22 @@ public class Usuario {
 		this.email = email;
 	}
 
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getContato() {
+		return contato;
+	}
+
+	public void setContato(String contato) {
+		this.contato = contato;
+	}
+
 	public String getTipo() {
 		return tipo;
 	}
@@ -58,8 +76,8 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + ", tipo=" + tipo
-				+ "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + ", endereco="
+				+ endereco + ", contato=" + contato + ", tipo=" + tipo + "]";
 	}
 
 }

@@ -1,14 +1,18 @@
 package Sports.JLMN.Controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import Sports.JLMN.models.Artigo;
+import Sports.JLMN.models.Produto;
 import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.usuarioRepository;
 
@@ -67,6 +71,31 @@ public class usuarioController {
 		}
 		System.out.println(login);
 		mv.setViewName("redirect:/home");
+		return mv;
+	}
+
+	@GetMapping("/Usuarios")
+	public ModelAndView listaUsuarios(Usuario usuario) {
+		List<Usuario> usuarios = ur.findAll();
+		ModelAndView mv = new ModelAndView();
+
+		mv.addObject("usuarios", usuarios);
+		mv.setViewName("usuario/usuarios");
+		return mv;
+	}
+
+	@GetMapping("/Usuario/{id}")
+	public ModelAndView detalhes(@PathVariable Long id) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Usuario> opt = ur.findById(id);
+		if (opt.isEmpty()) {
+			mv.setViewName("redirect:/home");
+			return mv;
+		}
+
+		mv.setViewName("usuario/detalhes");
+		Usuario usuario = opt.get();
+		mv.addObject("usuario", usuario);
 		return mv;
 	}
 }

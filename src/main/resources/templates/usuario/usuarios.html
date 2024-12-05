@@ -9,17 +9,16 @@
 <body>
 	<div th:replace="~{menu :: menu}"></div>
 	<div class="container">
-		<h1>Artigos</h1>
-		<p th:if="${mensagem}" th:text="${mensagem}"></p>
+		<h1>Usuários</h1>
 		<table class="highlight">
 			<thead>
 				<tr>
-					<th>Artigos</th>
+					<th>Usuários</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="a : ${artigos}">
-					<td><a th:href="@{/Artigo/{id}(id=${a.id})}"><span th:text="${a.nome}">Nome</span></a></td>
+				<tr th:each="u : ${usuarios}">
+					<td><a th:href="@{/Usuario/{id}(id=${u.id})}"><span th:text="${u.nome}">Nome</span></a></td>
 				</tr>
 			</tbody>
 		</table>
