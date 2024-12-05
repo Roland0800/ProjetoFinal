@@ -13,7 +13,7 @@ public class Usuario {
 	private Long id;
 	private String nome;
 	private String senha;
-	private String altSenha;
+	private String email;
 	private String tipo;
 
 	public Long getId() {
@@ -40,12 +40,12 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public String getAltSenha() {
-		return altSenha;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setAltSenha(String altSenha) {
-		this.altSenha = altSenha;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getTipo() {
@@ -58,6 +58,8 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + ", tipo=" + tipo
+				+ "]";
 	}
+
 }

@@ -7,7 +7,7 @@
 <title>JLMN Sports - Login</title>
 </head>
 <body>
-    <div th:replace="~{menu :: menuLogin}"></div>
+	<div th:replace="~{menu :: menuLogin}"></div>
 	<div class="container">
 		<h3 align="center">Login</h3>
 		<form action="/loginUsuario" method="post">
@@ -17,17 +17,28 @@
 			<div>
 				<label>Senha:</label> <input type="password" name="senha">
 			</div>
-			<p>
-				<label> <input name="tipo" type="radio" value="Cliente"/> <span>Cliente</span>
-				</label>
-			</p>
-			<p>
-				<label> <input name="tipo" type="radio" value="ADM"/> <span>Adm</span>
-				</label>
-			</p>
 			<div>
+				<label>Email:</label> <input type="text" name="email">
+			</div>
+			<div>
+				<p align="center">
+					<label> <input name="tipo" type="radio" value="Cliente" />
+						<span>Cliente</span>
+					</label>
+				</p>
+				<p align="center">
+					<label> <input name="tipo" type="radio" value="ADM" /> <span>Adm</span>
+					</label>
+				</p>
+			</div>
+			<div>
+				<p align="center">
+					<a href="/altSenha">Esqueceu a Senha?</a>
+				</p>
+			</div>
+			<div align="center">
 				<button class="waves-effect waves-light btn" type="submit">Acessar</button>
-				<button class="waves-effect waves-light btn" type="submit">Limpar</button>
+				<button class="waves-effect waves-light btn" type="reset">Limpar</button>
 			</div>
 		</form>
 	</div>

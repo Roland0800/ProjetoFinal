@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +20,7 @@ public class usuarioController {
 
 	@GetMapping("/criarUsuario")
 	public String criarUsuario(Usuario usuario) {
-		return "usuario/criarUsuario";
+		return ("usuario/criarUsuario");
 	}
 
 	@PostMapping("/saveUsuario")
@@ -31,26 +30,25 @@ public class usuarioController {
 		return "redirect:/home";
 	}
 
-	@GetMapping("/usuario/altSenha")
-	public String altSenha() {
+	@GetMapping("/altSenha")
+	public String altSenha(Usuario usuario) {
 		return "usuario/altSenha";
 	}
 
-	@PostMapping("/usuario/newSenha")
-	public String newSenha(Long id, String senha, String altSenha, BindingResult result, RedirectAttributes attribute) {
-		Optional<Usuario> opt = ur.findById(id);
-		if (result.hasErrors()) {
-			return "usuario/altSenha";
-		}
+	@PostMapping("/newSenha")
+	public ModelAndView newSenha(String email, String senha, RedirectAttributes attribute) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Usuario> opt = ur.getByEmail(email);
 		if (opt.isEmpty()) {
-			return "usuario/altSenha";
-		}
-		if (senha != altSenha) {
 			attribute.addFlashAttribute("mensagem", "Insira senhas Iguais!");
-			return "usuario/altSenha";
+			mv.setViewName("redirect:usuario/altSenha");
+			return mv;
 		}
-		ur.newSenha(senha,id);
-		return "home";
+		Usuario usuario = opt.get();
+		usuario.setSenha(senha);
+		ur.save(usuario);
+		mv.setViewName("redirect:/home");
+		return mv;
 	}
 
 	@GetMapping("/login")
@@ -59,8 +57,8 @@ public class usuarioController {
 	}
 
 	@PostMapping("/loginUsuario")
-	public ModelAndView loginUsuario(String nome, String senha, String tipo) {
-		Usuario login = ur.login(nome, senha, tipo);
+	public ModelAndView loginUsuario(String nome, String senha, String email, String tipo) {
+		Usuario login = ur.login(nome, senha, email, tipo);
 
 		ModelAndView mv = new ModelAndView();
 		if (login == null) {
