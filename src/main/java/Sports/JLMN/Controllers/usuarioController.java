@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import Sports.JLMN.models.Artigo;
-import Sports.JLMN.models.Produto;
 import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.usuarioRepository;
 
@@ -22,7 +19,7 @@ public class usuarioController {
 	@Autowired
 	private usuarioRepository ur;
 
-	@GetMapping("/criarUsuario")
+	@GetMapping("/")
 	public String criarUsuario(Usuario usuario) {
 		return ("usuario/criarUsuario");
 	}
@@ -32,6 +29,32 @@ public class usuarioController {
 		System.out.println(usuario.toString());
 		ur.save(usuario);
 		return "redirect:/home";
+	}
+	
+	@GetMapping("/Usuario/edit/{id}")
+	public ModelAndView editUsuario(@PathVariable Long id, RedirectAttributes attribute) {
+		ModelAndView mv = new ModelAndView();		
+		Optional<Usuario> opt = ur.findById(id);
+		if(opt.isEmpty()) {
+			mv.setViewName("redirect:/Usuarios");
+			return mv;
+		}
+		attribute.addFlashAttribute("mensagemUsuario", "Usuário editado com sucesso!");
+		Usuario usuario = opt.get();
+		mv.addObject(usuario);
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+	
+	@GetMapping("/Usuario/delete/{id}")
+	public String deletarUsuario(@PathVariable Long id, RedirectAttributes attribute) {
+		Optional<Usuario> opt = ur.findById(id);
+		if(opt.isEmpty()) {
+			return "redirect:/Usuarios";
+		}
+		ur.delete(opt.get());
+		attribute.addFlashAttribute("mensagem", "Usuário deletado com sucesso!");
+		return "redirect:/Usuarios";
 	}
 
 	@GetMapping("/altSenha")

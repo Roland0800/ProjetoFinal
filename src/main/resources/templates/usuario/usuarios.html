@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>JLMN - Sports</title>
 </head>
 <body>
 	<div th:replace="~{menu :: menu}"></div>
 	<div class="container">
 		<h1>Usuários</h1>
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
 		<table class="highlight">
 			<thead>
 				<tr>
@@ -19,6 +22,12 @@
 			<tbody>
 				<tr th:each="u : ${usuarios}">
 					<td><a th:href="@{/Usuario/{id}(id=${u.id})}"><span th:text="${u.nome}">Nome</span></a></td>
+					<td>
+						<a th:href="@{/Usuario/edit/{id}(id=${u.id})}"><i class="material-icons">edit</i></a>
+					</td>
+					<td>
+						<a th:href="@{/Usuario/delete/{id}(id=${u.id})}"><i class="material-icons">delete</i></a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
