@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>JLMN - Sports</title>
 </head>
 <body>
@@ -15,11 +17,18 @@
 			<thead>
 				<tr>
 					<th>Artigos</th>
+					<th align="right"><a href="/addArtigo"><i
+							class="material-icons">add</i></a></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="a : ${artigos}">
-					<td><a th:href="@{/Artigo/{id}(id=${a.id})}"><span th:text="${a.nome}">Nome</span></a></td>
+					<td><a th:href="@{/Artigo/{id}(id=${a.id})}"><span
+							th:text="${a.nome}">Nome</span></a></td>
+					<td><a th:href="@{/Artigo/edit/{id}(id=${a.id})}"><i
+							class="material-icons">edit</i></a></td>
+					<td><a th:href="@{/Artigo/delete/{id}(id=${a.id})}"><i
+							class="material-icons">delete</i></a></td>
 				</tr>
 			</tbody>
 		</table>
