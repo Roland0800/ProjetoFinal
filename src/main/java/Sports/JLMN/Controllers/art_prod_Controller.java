@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Sports.JLMN.models.Artigo;
 import Sports.JLMN.models.Produto;
+import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.artigoRepository;
 import Sports.JLMN.repositories.produtoRepository;
 import jakarta.validation.Valid;
@@ -33,13 +34,35 @@ public class art_prod_Controller {
 	}
 
 	@PostMapping("/saveArtigo")
-	public String saveArtigo(@Valid Artigo artigo, BindingResult result, RedirectAttributes attribute) {
-		if (result.hasErrors()) {
-			return addArtigo(artigo);
-		}
+	public String saveArtigo(Artigo artigo, RedirectAttributes attribute) {
 		System.out.println(artigo.toString());
 		ar.save(artigo);
-		attribute.addFlashAttribute("mensagem", "Artigo adicionado com sucesso!");
+		attribute.addFlashAttribute("mensagem", "Artigo adicionado/editado com sucesso!");
+		return "redirect:/home";
+	}
+	
+	@GetMapping("/Artigo/edit/{id}")
+	public ModelAndView editArtigo(@PathVariable Long id, RedirectAttributes attribute) {
+		ModelAndView mv = new ModelAndView();		
+		Optional<Artigo> opt = ar.findById(id);
+		if(opt.isEmpty()) {
+			mv.setViewName("redirect:/home");
+			return mv;
+		}
+		Artigo artigo = opt.get();
+		mv.addObject(artigo);
+		mv.setViewName("redirect:/addArtigo");
+		return mv;
+	}
+	
+	@GetMapping("/Artigo/delete/{id}")
+	public String deletarArtigo(@PathVariable Long id, RedirectAttributes attribute) {
+		Optional<Artigo> opt = ar.findById(id);
+		if(opt.isEmpty()) {
+			return "redirect:/home";
+		}
+		ar.delete(opt.get());
+		attribute.addFlashAttribute("mensagem", "Artigo deletado com sucesso!");
 		return "redirect:/home";
 	}
 

@@ -10,6 +10,7 @@
 	<div th:replace="~{menu :: menuLogin}"></div>
 	<div class="container">
 		<h3 align="center">Alterar Senha</h3>
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
 		<form action="/newSenha" method="post">
 			<div>
 				<label>Email:</label><input type="text" name="email">

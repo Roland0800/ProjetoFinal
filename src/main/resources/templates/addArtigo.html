@@ -12,7 +12,12 @@
 		<h1>Cadastrar Artigo</h1>
 		<form action="/saveArtigo" method="post">
 			<div>
-				<label>Nome:</label> <input type="text" name="nome">
+				<input type="hidden" name="id" th:value="${artigo.id}"
+					readonly="readonly">
+			</div>
+			<div>
+				<label>Nome:</label> <input type="text" name="nome"
+					th:value="${artigo.nome}">
 			</div>
 			<div>
 				<button class="waves-effect waves-light btn" type="submit">Salvar</button>

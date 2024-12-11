@@ -25,9 +25,10 @@ public class usuarioController {
 	}
 
 	@PostMapping("/saveUsuario")
-	public String saveUsuario(Usuario usuario) {
+	public String saveUsuario(Usuario usuario, RedirectAttributes attribute) {
 		System.out.println(usuario.toString());
 		ur.save(usuario);
+		attribute.addFlashAttribute("mensagem", "Usuário adicionado/editado com sucesso!");
 		return "redirect:/home";
 	}
 	
@@ -39,7 +40,6 @@ public class usuarioController {
 			mv.setViewName("redirect:/Usuarios");
 			return mv;
 		}
-		attribute.addFlashAttribute("mensagemUsuario", "Usuário editado com sucesso!");
 		Usuario usuario = opt.get();
 		mv.addObject(usuario);
 		mv.setViewName("redirect:/");
@@ -67,14 +67,15 @@ public class usuarioController {
 		ModelAndView mv = new ModelAndView();
 		Optional<Usuario> opt = ur.getByEmail(email);
 		if (opt.isEmpty()) {
-			attribute.addFlashAttribute("mensagem", "Insira senhas Iguais!");
 			mv.setViewName("redirect:usuario/altSenha");
+			attribute.addFlashAttribute("mensagem", "Email inválido!");
 			return mv;
 		}
 		Usuario usuario = opt.get();
 		usuario.setSenha(senha);
 		ur.save(usuario);
-		mv.setViewName("redirect:/home");
+		attribute.addFlashAttribute("mensagem", "Senha alterada com sucesso!");
+		mv.setViewName("redirect:/usuario/login");
 		return mv;
 	}
 
