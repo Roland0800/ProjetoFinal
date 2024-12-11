@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Sports.JLMN.models.Artigo;
 import Sports.JLMN.models.Produto;
-import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.artigoRepository;
 import Sports.JLMN.repositories.produtoRepository;
 import jakarta.validation.Valid;
@@ -34,7 +33,10 @@ public class art_prod_Controller {
 	}
 
 	@PostMapping("/saveArtigo")
-	public String saveArtigo(Artigo artigo, RedirectAttributes attribute) {
+	public String saveArtigo(@Valid Artigo artigo, BindingResult result, RedirectAttributes attribute) {
+		if(result.hasErrors()) {
+			return addArtigo(artigo);
+		}
 		System.out.println(artigo.toString());
 		ar.save(artigo);
 		attribute.addFlashAttribute("mensagem", "Artigo adicionado/editado com sucesso!");

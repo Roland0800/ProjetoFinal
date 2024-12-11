@@ -9,8 +9,8 @@ import Sports.JLMN.models.Usuario;
 
 public interface usuarioRepository extends JpaRepository<Usuario, Long> {
 
-	@Query("select i from Usuario i where i.nome = :nome and i.senha = :senha and i.email = :email and i.tipo = :tipo")
-	public Usuario login(String nome, String senha, String email, String tipo);
+	@Query("select i from Usuario i where i.email = :email and i.senha = :senha and i.tipo = :tipo")
+	public Usuario login(String email, String senha, String tipo);
 	
 	public Optional<Usuario> getByEmail(String email);
 	

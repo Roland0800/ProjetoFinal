@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import Sports.JLMN.models.Usuario;
 import Sports.JLMN.repositories.usuarioRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class usuarioController {
@@ -25,11 +27,22 @@ public class usuarioController {
 	}
 
 	@PostMapping("/saveUsuario")
-	public String saveUsuario(Usuario usuario, RedirectAttributes attribute) {
-		System.out.println(usuario.toString());
-		ur.save(usuario);
-		attribute.addFlashAttribute("mensagem", "Usuário adicionado/editado com sucesso!");
-		return "redirect:/home";
+	public String saveUsuario(@Valid Usuario usuario, BindingResult result, RedirectAttributes attribute) {
+		
+		if(result.hasErrors()) {
+			return criarUsuario(usuario);
+		}
+		
+		Optional<Usuario> opt = ur.getByEmail(usuario.getEmail());
+		
+		if(opt.isEmpty() || usuario.getId() != null) {
+			System.out.println(usuario.toString());
+			ur.save(usuario);
+			attribute.addFlashAttribute("mensagem", "Usuário adicionado/editado com sucesso!");
+			return "redirect:/home";
+		}
+		attribute.addFlashAttribute("mensagem", "Email já presente no sistema!");
+		return "redirect:/";
 	}
 	
 	@GetMapping("/Usuario/edit/{id}")
@@ -63,19 +76,24 @@ public class usuarioController {
 	}
 
 	@PostMapping("/newSenha")
-	public ModelAndView newSenha(String email, String senha, RedirectAttributes attribute) {
+	public ModelAndView newSenha(@Valid Usuario usuario, BindingResult result, RedirectAttributes attribute) {
 		ModelAndView mv = new ModelAndView();
-		Optional<Usuario> opt = ur.getByEmail(email);
+		Optional<Usuario> opt = ur.getByEmail(usuario.getEmail());
+		if (result.hasErrors()) {
+			mv.setViewName("/usuario/altSenha");
+			mv.addObject(usuario);
+			return mv;
+		}
 		if (opt.isEmpty()) {
 			mv.setViewName("redirect:usuario/altSenha");
 			attribute.addFlashAttribute("mensagem", "Email inválido!");
 			return mv;
 		}
-		Usuario usuario = opt.get();
-		usuario.setSenha(senha);
+		Usuario u = opt.get();
+		u.setSenha(usuario.getSenha());
 		ur.save(usuario);
 		attribute.addFlashAttribute("mensagem", "Senha alterada com sucesso!");
-		mv.setViewName("redirect:/usuario/login");
+		mv.setViewName("redirect:/login");
 		return mv;
 	}
 
@@ -85,15 +103,16 @@ public class usuarioController {
 	}
 
 	@PostMapping("/loginUsuario")
-	public ModelAndView loginUsuario(String nome, String senha, String email, String tipo) {
-		Usuario login = ur.login(nome, senha, email, tipo);
-
+	public ModelAndView loginUsuario(String email, String senha, String tipo, RedirectAttributes attributes) {
 		ModelAndView mv = new ModelAndView();
-		if (login == null) {
+		Usuario usuario = ur.login(email, senha, tipo);
+		
+		if (usuario == null) {
 			mv.setViewName("redirect:/login");
+			attributes.addFlashAttribute("mensagem", "O campo Email/Senha/Tipo está incorreto!");
 			return mv;
 		}
-		System.out.println(login);
+		System.out.println(usuario);
 		mv.setViewName("redirect:/home");
 		return mv;
 	}

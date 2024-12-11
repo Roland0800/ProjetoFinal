@@ -10,18 +10,20 @@
 	<div th:replace="~{menu :: menu}"></div>
 	<div class="container">
 		<h1>Cadastrar Artigo</h1>
-		<form action="/saveArtigo" method="post">
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
+		<form action="/saveArtigo" method="post" th:object="${artigo}">
 			<div>
-				<input type="hidden" name="id" th:value="${artigo.id}"
+				<input type="hidden" th:field="*{id}"
 					readonly="readonly">
 			</div>
 			<div>
-				<label>Nome:</label> <input type="text" name="nome"
-					th:value="${artigo.nome}">
+				<label>Nome:</label> <input type="text"
+					th:field="*{nome}">
+				<p th:errors="*{nome}"></p>
 			</div>
 			<div>
 				<button class="waves-effect waves-light btn" type="submit">Salvar</button>
-				<button class="waves-effect waves-light btn" type="submit">Limpar</button>
+				<button class="waves-effect waves-light btn" type="reset">Limpar</button>
 			</div>
 		</form>
 	</div>

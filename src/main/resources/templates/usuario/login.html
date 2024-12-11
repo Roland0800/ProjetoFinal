@@ -13,21 +13,16 @@
 		<p th:if="${mensagem}" th:text="${mensagem}"></p>
 		<form action="/loginUsuario" method="post">
 			<div>
-				<label>Nome:</label> <input type="text" name="nome">
+				<label>Email:</label> <input type="text" name="email">
 			</div>
 			<div>
 				<label>Senha:</label> <input type="password" name="senha">
-			</div>
-			<div>
-				<label>Email:</label> <input type="text" name="email">
 			</div>
 			<div>
 				<p align="center">
 					<label> <input name="tipo" type="radio" value="Cliente" />
 						<span>Cliente</span>
 					</label>
-				</p>
-				<p align="center">
 					<label> <input name="tipo" type="radio" value="ADM" /> <span>Adm</span>
 					</label>
 				</p>

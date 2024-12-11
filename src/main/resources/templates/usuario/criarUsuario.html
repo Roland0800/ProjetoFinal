@@ -10,36 +10,41 @@
 	<div th:replace="~{menu :: menuLogin}"></div>
 	<div class="container">
 		<h3 align="center">Criar Usuário</h3>
-		<form action="/saveUsuario" method="post">
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
+		<form action="/saveUsuario" method="post" th:object="${usuario}">
 			<div>
-				<input type="hidden" name="id" th:value="${usuario.id}" readonly="readonly">
+				<input type="hidden" th:field="*{id}" readonly="readonly">
 			</div>
 			<div>
-				<label>Nome:</label> <input type="text" name="nome" th:value="${usuario.nome}">
+				<label>Nome:</label> <input type="text" th:field="*{nome}">
+				<p th:errors="*{nome}"></p>
 			</div>
 			<div>
-				<label>Senha:</label> <input type="password" name="senha" th:value="${usuario.senha}">
+				<label>Senha:</label> <input type="password" th:field="*{senha}">
+				<p th:errors="*{senha}"></p>
 			</div>
 			<div>
-				<label>Email:</label> <input type="text" name="email" th:value="${usuario.email}">
+				<label>Email:</label> <input type="text" th:field="*{email}">
+				<p th:errors="*{email}"></p>
 			</div>
 			<div>
-				<label>Endereço:</label> <input type="text" name="endereco" th:value="${usuario.endereco}">
+				<label>Endereço:</label> <input type="text" th:field="*{endereco}">
+				<p th:errors="*{endereco}"></p>
 			</div>
 			<div>
-				<label>Contato:</label> <input type="text" name="contato" th:value="${usuario.contato}">
+				<label>Contato:</label> <input type="text" th:field="*{contato}">
+				<p th:errors="*{contato}"></p>
 			</div>
 			<div align="center">
 				<p>
 					<label> <input name="tipo" type="radio" value="Cliente" />
 						<span>Cliente</span>
 					</label>
-				</p>
-				<p>
 					<label> <input name="tipo" type="radio" value="ADM" />
 						<span>Adm</span>
 					</label>
 				</p>
+				<p th:errors="*{tipo}"></p>
 			</div>
 			<div align="center">
 				<button class="waves-effect waves-light btn" type="submit">Salvar</button>

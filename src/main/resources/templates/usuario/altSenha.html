@@ -11,12 +11,14 @@
 	<div class="container">
 		<h3 align="center">Alterar Senha</h3>
 		<p th:if="${mensagem}" th:text="${mensagem}"></p>
-		<form action="/newSenha" method="post">
+		<form action="/newSenha" method="post" th:object="${usuario}">
 			<div>
 				<label>Email:</label><input type="text" name="email">
+				<p th:errors="*{email}"></p>
 			</div>
 			<div>
 				<label>Nova Senha:</label> <input type="password" name="senha">
+				<p th:errors="*{senha}"></p>
 			</div>
 			<div align="center">
 				<button class="waves-effect waves-light btn" type="submit">Salvar</button>
