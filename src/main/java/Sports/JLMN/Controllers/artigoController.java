@@ -19,7 +19,7 @@ import Sports.JLMN.repositories.produtoRepository;
 import jakarta.validation.Valid;
 
 @Controller
-public class art_prod_Controller {
+public class artigoController {
 
 	@Autowired
 	private artigoRepository ar;
@@ -93,36 +93,6 @@ public class art_prod_Controller {
 
 		List<Produto> produtos = pr.findByArtigo(artigo);
 		mv.addObject("produtos", produtos);
-		return mv;
-	}
-
-	@GetMapping("/addProduto")
-	public String addProduto(Produto produto) {
-		return "/addProduto";
-	}
-
-	@PostMapping("/Artigo/{idArtigo}")
-	public ModelAndView saveProduto(@PathVariable Long idArtigo, @Valid Produto produto, BindingResult result,
-			RedirectAttributes attribute) {
-
-		Optional<Artigo> opt = ar.findById(idArtigo);
-		ModelAndView mv = new ModelAndView();
-
-		if (opt.isEmpty()) {
-			mv.setViewName("home");
-			return mv;
-		}
-		if (result.hasErrors()) {
-			return artigo(idArtigo, produto);
-		}
-
-		Artigo artigo = opt.get();
-		produto.setArtigo(artigo);
-		System.out.println(produto.toString());
-		pr.save(produto);
-		attribute.addFlashAttribute("mensagem", "Produto adicionado com sucesso!");
-
-		mv.setViewName("redirect:/Artigo/{idArtigo}");
 		return mv;
 	}
 }
