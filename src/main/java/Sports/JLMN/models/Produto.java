@@ -1,12 +1,10 @@
 package Sports.JLMN.models;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Produto {
@@ -18,8 +16,8 @@ public class Produto {
 	private String descricao;
 	private String preco;
 
-	@ManyToMany(mappedBy = "produtos")
-	private List<Artigo> artigos;
+	@ManyToOne
+	private Artigo artigo;
 
 	public Long getId() {
 		return id;
@@ -53,18 +51,21 @@ public class Produto {
 		this.preco = preco;
 	}
 
-	public List<Artigo> getArtigos() {
-		return artigos;
+	public Artigo getArtigo() {
+		return artigo;
 	}
 
-	public void setArtigos(List<Artigo> artigos) {
-		this.artigos = artigos;
+	public void setArtigo(Artigo artigo) {
+		this.artigo = artigo;
 	}
 
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", artigos="
-				+ artigos + "]";
+		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", artigo="
+				+ artigo + "]";
 	}
+
+	
+	
 
 }

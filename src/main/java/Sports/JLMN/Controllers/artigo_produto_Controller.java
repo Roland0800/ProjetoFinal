@@ -19,11 +19,12 @@ import Sports.JLMN.repositories.produtoRepository;
 import jakarta.validation.Valid;
 
 @Controller
-public class artigoController {
+public class artigo_produto_Controller {
 
 	@Autowired
 	private artigoRepository ar;
-	produtoRepository pr;
+	@Autowired
+	private produtoRepository pr;
 
 	@GetMapping("/addArtigo")
 	public String addArtigo(Artigo artigo) {
@@ -32,37 +33,12 @@ public class artigoController {
 
 	@PostMapping("/saveArtigo")
 	public String saveArtigo(@Valid Artigo artigo, BindingResult result, RedirectAttributes attribute) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return addArtigo(artigo);
 		}
 		System.out.println(artigo.toString());
 		ar.save(artigo);
 		attribute.addFlashAttribute("mensagem", "Artigo adicionado/editado com sucesso!");
-		return "redirect:/home";
-	}
-	
-	@GetMapping("/Artigo/edit/{id}")
-	public ModelAndView editArtigo(@PathVariable Long id, RedirectAttributes attribute) {
-		ModelAndView mv = new ModelAndView();		
-		Optional<Artigo> opt = ar.findById(id);
-		if(opt.isEmpty()) {
-			mv.setViewName("redirect:/home");
-			return mv;
-		}
-		Artigo artigo = opt.get();
-		mv.addObject(artigo);
-		mv.setViewName("redirect:/addArtigo");
-		return mv;
-	}
-	
-	@GetMapping("/Artigo/delete/{id}")
-	public String deletarArtigo(@PathVariable Long id, RedirectAttributes attribute) {
-		Optional<Artigo> opt = ar.findById(id);
-		if(opt.isEmpty()) {
-			return "redirect:/home";
-		}
-		ar.delete(opt.get());
-		attribute.addFlashAttribute("mensagem", "Artigo deletado com sucesso!");
 		return "redirect:/home";
 	}
 
@@ -74,6 +50,31 @@ public class artigoController {
 		mv.addObject("artigos", artigos);
 		mv.setViewName("/home");
 		return mv;
+	}
+	
+	@GetMapping("/Artigo/edit/{id}")
+	public ModelAndView editArtigo(@PathVariable Long id, RedirectAttributes attribute) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Artigo> opt = ar.findById(id);
+		if (opt.isEmpty()) {
+			mv.setViewName("redirect:/home");
+			return mv;
+		}
+		Artigo artigo = opt.get();
+		mv.addObject(artigo);
+		mv.setViewName("redirect:/addArtigo");
+		return mv;
+	}
+
+	@GetMapping("/Artigo/delete/{id}")
+	public String deletarArtigo(@PathVariable Long id, RedirectAttributes attribute) {
+		Optional<Artigo> opt = ar.findById(id);
+		if (opt.isEmpty()) {
+			return "redirect:/home";
+		}
+		ar.delete(opt.get());
+		attribute.addFlashAttribute("mensagem", "Artigo deletado com sucesso!");
+		return "redirect:/home";
 	}
 
 	@GetMapping("/Artigo/{id}")
@@ -89,8 +90,48 @@ public class artigoController {
 		Artigo artigo = opt.get();
 		mv.addObject("artigo", artigo);
 
-		List<Produto> produtos = pr.findByArtigo(artigos);
+		List<Produto> produtos = pr.findByArtigo(artigo);
 		mv.addObject("produtos", produtos);
+		return mv;
+	}
+
+	@GetMapping("/Produtos")
+	public ModelAndView listProdutos(Produto produto) {
+		List<Produto> produtos = pr.findAll();
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("produtos", produtos);
+		mv.setViewName("produto/Produtos");
+		return mv;
+	}
+
+	@PostMapping("/addProduto/{id}")
+	public ModelAndView addProduto(@PathVariable Long id, Produto produto) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Artigo> opt = ar.findById(id);
+		if(opt.isEmpty()) {
+			mv.setViewName("redirect:/home");
+			return mv;
+		}
+		Artigo artigo = opt.get();
+		produto.setArtigo(artigo);
+		pr.save(produto);
+		mv.addObject("artigo", artigo);
+		mv.setViewName("redirect:/Artigo/{id}");
+		return mv;
+	}
+	
+	@GetMapping("/Produto/{id}")
+	public ModelAndView Produto(@PathVariable Long id) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Produto> opt = pr.findById(id);
+		if(opt.isEmpty()) {
+			mv.setViewName("redirect:/Produto");
+			return mv;
+		}
+		
+		mv.setViewName("produto/Produto");
+		Produto produto = opt.get();
+		mv.addObject("produto", produto);
 		return mv;
 	}
 }

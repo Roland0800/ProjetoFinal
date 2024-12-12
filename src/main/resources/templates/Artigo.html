@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>JLMN Sports - Detalhes do Artigo</title>
 </head>
 <body>
@@ -27,16 +29,24 @@
 			<div class="col s12">
 				<div class="card">
 					<div class="card-content">
-						<span class="card-title">Cadastrar Produto</span>
-						<form th:action="@{/Artigo/{idArtigo}(idArtigo=${artigo.id})}" method="post">
+						<span class="card-title">Criar Produto</span>
+						<form th:action="@{/addProduto/{id}(id=${artigo.id})}"
+							method="post" th:object="${produto}">
 							<div>
-								<label>Nome:</label> <input type="text" name="nome">
+								<input type="hidden" th:field="*{id}" readonly="readonly">
 							</div>
 							<div>
-								<label>Descrição:</label> <input type="text" name="descricao">
+								<label>Nome:</label> <input type="text" th:field="*{nome}">
+								<p th:errors="*{nome}"></p>
 							</div>
 							<div>
-								<label>Preço:</label> <input type="text" name="preco">
+								<label>Descrição:</label> <input type="text"
+									th:field="*{descricao}">
+								<p th:errors="*{descricao}"></p>
+							</div>
+							<div>
+								<label>Preço:</label> <input type="text" th:field="*{preco}">
+								<p th:errors="*{preco}"></p>
 							</div>
 							<div>
 								<button class="waves-effect waves-light btn" type="submit">Salvar</button>
@@ -62,9 +72,9 @@
 							</thead>
 							<tbody>
 								<tr th:each="p : ${produtos}">
-									<td th:text="${p.nome}">Nome</td>
+									<td><a th:href="@{/Produto/{id}(id=${p.id})}"><span th:text="${p.nome}">Nome</span></a></td>
 									<td th:text="${p.descricao}">Descrição</td>
-									<td>R$ <span th:text="${p.preco}">Preço</span></td>
+									<td colspan="2">R$ <span th:text="${p.preco}">Preço</span></td>
 								</tr>
 							</tbody>
 						</table>

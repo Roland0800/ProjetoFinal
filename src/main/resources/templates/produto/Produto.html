@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<title>JLMN Sports - Detalhes do Produto</title>
+</head>
+<body>
+	<div th:replace="~{menu :: menu}"></div>
+	<div class="container">
+		<h1>Detalhes do Produto</h1>
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Produto</span>
+						<p>
+							<strong>Nome: </strong> <span th:text="${produto.nome}">Nome</span>
+						</p>
+						<p>
+							<strong>Descrição: </strong> <span th:text="${produto.descricao}">Descrição</span>
+						</p>
+						<p>
+							<strong>Preço: </strong> R$<span th:text="${produto.preco}">Preço</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
