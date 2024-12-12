@@ -23,9 +23,7 @@ public class artigoController {
 
 	@Autowired
 	private artigoRepository ar;
-
-	@Autowired
-	private produtoRepository pr;
+	produtoRepository pr;
 
 	@GetMapping("/addArtigo")
 	public String addArtigo(Artigo artigo) {
@@ -91,7 +89,7 @@ public class artigoController {
 		Artigo artigo = opt.get();
 		mv.addObject("artigo", artigo);
 
-		List<Produto> produtos = pr.findByArtigo(artigo);
+		List<Produto> produtos = pr.findByArtigo(artigos);
 		mv.addObject("produtos", produtos);
 		return mv;
 	}
