@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Produto {
@@ -12,13 +13,19 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
 	private String nome;
+	@NotBlank
 	private String descricao;
+	@NotBlank
 	private String preco;
 
 	@ManyToOne
 	private Artigo artigo;
-
+	
+	@ManyToOne
+	private Usuario usuario;
+	
 	public Long getId() {
 		return id;
 	}
@@ -59,13 +66,18 @@ public class Produto {
 		this.artigo = artigo;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", artigo="
-				+ artigo + "]";
+				+ artigo + ", usuario=" + usuario + "]";
 	}
-
 	
-	
-
 }
