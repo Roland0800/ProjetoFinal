@@ -12,7 +12,6 @@
 	<div th:replace="~{menu :: menu}"></div>
 	<div class="container">
 		<h1>Detalhes do Usuário</h1>
-		<p th:if="${mensagem}" th:text="${mensagem}"></p>
 		<div class="row">
 			<div class="col s12">
 				<div class="card">
@@ -39,6 +38,35 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Carrinho</span>
+						<table>
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Descrição</th>
+									<th>Preço</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="up : ${userProdutos}">
+									<td><a th:href="@{/Produto/{id}(id=${up.id})}"><span
+											th:text="${up.nome}">Nome</span></a></td>
+									<td th:text="${up.descricao}">Descrição</td>
+									<td>R$ <span th:text="${up.preco}">Preço</span></td>
+									<td><a
+										th:href="@{/Usuario/remove/{idProduto}/{id}(idProduto=${up.id}, id=${usuario.id})}"><i
+											class="material-icons">close</i></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Produtos Disponiveis</span>
 						<table class="highlight">
 							<thead>
 								<tr>
@@ -48,40 +76,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="p : ${userProdutos}">
-									<td><a th:href="@{/Produto/{id}(id=${p.id})}"><span
-											th:text="${p.nome}">Nome</span></a></td>
-									<td th:text="${p.descricao}">Descrição</td>
-									<td colspan="2">R$ <span th:text="${p.preco}">Preço</span></td>
-									<td><a
-										th:href="@{/Produto/remove/{idUsuario}/{id}(idUsuario=${usuario.id}, id=${p.id})}"><i
-											class="material-icons">clear</i></a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<h5>Produtos Disponíveis!</h5>
-		<div class="row">
-			<div class="col s12">
-				<div class="card">
-					<div class="card-content">
-						<table class="highlight">
-							<thead>
-								<tr>
-									<th colspan="2">Produtos</th>
-								</tr>
-							</thead>
-							<tbody>
 								<tr th:each="p : ${produtos}">
 									<td><a th:href="@{/Produto/{id}(id=${p.id})}"><span
 											th:text="${p.nome}">Nome</span></a></td>
 									<td th:text="${p.descricao}">Descrição</td>
-									<td>R$<span th:text="${p.Preco}">Preço</span></td>
+									<td>R$ <span th:text="${p.preco}">Preço</span></td>
 									<td><a
-										th:href="@{/Produto/add/{idUsuario}/{id}(idUsuario=${usuario.id}, id=${p.id})}"><i
+										th:href="@{/Usuario/{idProduto}/{id}(idProduto=${p.id}, id=${usuario.id})}"><i
 											class="material-icons">add_shopping_cart</i></a></td>
 								</tr>
 							</tbody>
@@ -91,3 +92,5 @@
 			</div>
 		</div>
 	</div>
+</body>
+</html>

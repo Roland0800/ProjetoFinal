@@ -327,13 +327,51 @@ public class projectController {
 			mv.setViewName("redirect:/home");
 			return mv;
 		}
-		
-		mv.setViewName("usuario/detalhes");
 		Usuario usuario = opt.get();
-		mv.addObject("userProdutos", pr.findByUsuario(usuario));
-		mv.addObject("produtos", pr.findAll());
+		List<Produto> produtos = pr.findAll();
+		List<Produto> userProdutos = pr.findByUsuario(usuario);
+		mv.addObject("produtos", produtos);
+		mv.addObject("userProdutos", userProdutos);
 		mv.addObject("usuario", usuario);
+		mv.setViewName("usuario/detalhes");
+		return mv;
+	}
+
+	@GetMapping("/Usuario/{idProduto}/{id}")
+	public ModelAndView userProduto(@PathVariable Long id, @PathVariable Long idProduto) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Usuario> opt = ur.findById(id);
+		Optional<Produto> opt2 = pr.findById(idProduto);
+		if (opt.isEmpty() || opt2.isEmpty()) {
+			mv.setViewName("redirect:/usuarios");
+			return mv;
+		}
+		Produto produto = opt2.get();
+		Usuario usuario = opt.get();
+		produto.setUsuario(usuario);
+		pr.save(produto);
+		mv.setViewName("redirect:/Usuario/{id}");
+		return mv;
+	}
+
+	@GetMapping("/Usuario/remove/{idProduto}/{id}")
+	public ModelAndView removeUserProduto(@PathVariable Long id, @PathVariable Long idProduto) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Usuario> opt = ur.findById(id);
+		Optional<Produto> opt2 = pr.findById(idProduto);
+		if (opt.isEmpty() || opt2.isEmpty()) {
+			mv.setViewName("redirect:/usuarios");
+			return mv;
+		}
+		Produto produto = opt2.get();
+		produto.setUsuario(null);
+		pr.save(produto);
+		mv.setViewName("redirect:/Usuario/{id}");
 		return mv;
 	}
 	
+	@GetMapping("/pay")
+	public String Payment() {
+		return "pay";
+	}
 }
