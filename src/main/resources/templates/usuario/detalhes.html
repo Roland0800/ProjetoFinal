@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>JLMN Sports - Detalhes do Artigo</title>
 </head>
 <body>
@@ -31,4 +33,64 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Carrinho</span>
+						<table>
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Descrição</th>
+									<th>Preço</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="up : ${userProdutos}">
+									<td><a th:href="@{/Produto/{id}(id=${up.id})}"><span
+											th:text="${up.nome}">Nome</span></a></td>
+									<td th:text="${up.descricao}">Descrição</td>
+									<td>R$ <span th:text="${up.preco}">Preço</span></td>
+									<td><a
+										th:href="@{/Usuario/remove/{idProduto}/{id}(idProduto=${up.id}, id=${usuario.id})}"><i
+											class="material-icons">close</i></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Produtos Disponiveis</span>
+						<table class="highlight">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Descrição</th>
+									<th>Preço</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="p : ${produtos}">
+									<td><a th:href="@{/Produto/{id}(id=${p.id})}"><span
+											th:text="${p.nome}">Nome</span></a></td>
+									<td th:text="${p.descricao}">Descrição</td>
+									<td>R$ <span th:text="${p.preco}">Preço</span></td>
+									<td><a
+										th:href="@{/Usuario/{idProduto}/{id}(idProduto=${p.id}, id=${usuario.id})}"><i
+											class="material-icons">add_shopping_cart</i></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+</body>
+</html>
